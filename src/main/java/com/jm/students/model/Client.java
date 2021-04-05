@@ -1,15 +1,20 @@
 package com.jm.students.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+
 @Entity
 @Table(name = "client")
-@Data
+@Getter
+@Service
+@AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@EqualsAndHashCode
 public class Client {
 
     @Id
@@ -30,6 +35,23 @@ public class Client {
     private String address;
 
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<ClientEmployee> clientEmployees = new HashSet<>();
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private final Set<ClientEmployee> clientEmployees = new HashSet<>();
 
+    public void addClientEmployee(ClientEmployee clientEmployee) {
+        clientEmployees.add(clientEmployee);
+        clientEmployee.setClient(this);
+    }
+    public void removeClientEmployee(ClientEmployee clientEmployee) {
+        clientEmployees.remove(clientEmployee);
+        clientEmployee.setClient(null);
+    }
+
+    public Client(String nameOfCompany, String firstName, String lastName, String address) {
+        this.nameOfCompany = nameOfCompany;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+    }
 }

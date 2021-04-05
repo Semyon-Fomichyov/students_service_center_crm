@@ -25,6 +25,7 @@ public class ClientEmployeeServiceImpl implements ClientEmployeeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ClientEmployee> listClientEmployees() {
         return clientEmployeeDao.listClientEmployees();
     }
@@ -40,6 +41,7 @@ public class ClientEmployeeServiceImpl implements ClientEmployeeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ClientEmployee getClientEmployeeById(Long id) {
         return clientEmployeeDao.getClientEmployeeById(id);
     }

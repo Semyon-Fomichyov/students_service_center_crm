@@ -25,6 +25,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Client> listClients() {
         return clientDao.listClients();
     }
@@ -40,6 +41,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Client getClientById(Long id) {
         return clientDao.getClientById(id);
     }

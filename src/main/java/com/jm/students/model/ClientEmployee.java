@@ -1,14 +1,17 @@
 package com.jm.students.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "client_employee")
-@Data
+@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class ClientEmployee {
 
     @Id
@@ -25,8 +28,16 @@ public class ClientEmployee {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id", nullable = false)
+    @EqualsAndHashCode.Exclude
     private Client client;
+
+    public ClientEmployee(String firstName, String lastName, String phoneNumber, Client client) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.client = client;
+    }
 
 }
