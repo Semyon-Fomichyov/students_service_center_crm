@@ -8,11 +8,11 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "service_requests_history")
+@Table(name = "service_requests_events")
 @NoArgsConstructor
 @Getter
 @Setter
-public class ServiceRequestHistory {
+public class ServiceRequestEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -20,9 +20,9 @@ public class ServiceRequestHistory {
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE
-            , CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn("service_requests_id")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "service_requests_id")
     private ServiceRequest serviceRequest;
 
     @Enumerated(EnumType.STRING)
