@@ -35,16 +35,16 @@ public class ServiceRequest {
 
         private String problem;
 
-        @OneToOne
+        @ManyToOne
         private ClientOrganization clientOrganization;
 
-        @OneToOne
+        @ManyToOne
         private ServiceCenterOrganization serviceCenterOrganization;
 
-        @OneToOne
+        @ManyToOne
         private User service_manager;
 
-        @OneToOne
+        @ManyToOne
         private User client_employee;
 
         @ManyToMany
