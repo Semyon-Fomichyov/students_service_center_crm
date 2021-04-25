@@ -13,7 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "organization")
+@Table(name = "organizations")
+@DiscriminatorColumn(name="organization_type")
 public abstract class AbstractOrganization {
 
     @Id

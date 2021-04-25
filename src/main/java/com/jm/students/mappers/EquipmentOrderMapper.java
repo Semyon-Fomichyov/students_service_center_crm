@@ -14,6 +14,6 @@ public interface EquipmentOrderMapper {
     @Mapping(source = "equipmentType", target = "equipmentTypeDTO")
     @Mapping(source = "equipmentName", target = "equipmentName")
     @Mapping(source = "price", target = "price")
-    @Mapping(source = "request", target = "request")
+    @Mapping(source = "request", target = "request", ignore = true)
     EquipmentOrderDTO toEquipmentOrderDto(EquipmentOrder order);
 }

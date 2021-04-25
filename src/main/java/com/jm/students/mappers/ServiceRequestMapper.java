@@ -2,8 +2,8 @@ package com.jm.students.mappers;
 
 import com.jm.students.DTO.ServiceRequestDTO;
 import com.jm.students.model.ServiceRequest;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.checkerframework.checker.units.qual.C;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring", uses = EquipmentOrderMapper.class)
@@ -18,4 +18,5 @@ public interface ServiceRequestMapper {
     @Mapping(source = "customer", target = "customer")
     @Mapping(source = "orders", target = "orders")
     ServiceRequestDTO toServiceRequestDto(ServiceRequest request);
+
 }

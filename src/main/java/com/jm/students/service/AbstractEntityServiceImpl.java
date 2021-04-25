@@ -20,7 +20,7 @@ public class AbstractEntityServiceImpl<T> implements AbstractEntityService<T> {
     }
 
     @Override
-    public List findAll() {
+    public List<T> findAll() {
         return abstractEntityRepository.findAll();
     }
 

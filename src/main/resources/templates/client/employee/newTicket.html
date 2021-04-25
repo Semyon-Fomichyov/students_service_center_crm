@@ -30,7 +30,7 @@
             <h3>Новая заявка в сервисный центр</h3>
             <br/>
             <br/>
-            <form th:method="POST" th:action="@{/tickets}" th:object="${text}">
+            <form th:method="POST" th:action="@{/serviceRequests}" th:object="${text}">
                 <div class="mb-3">
                     <label for="ticketText" class="form-label">Содержание заявки</label>
                     <textarea id="ticketText" class="form-control form-control-lg"

@@ -11,7 +11,7 @@ public abstract class AbstractEntityRepositoryImpl<T> implements AbstractEntityR
             .getActualTypeArguments()[0];
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @Override
     public T findById(Long id) {

@@ -23,7 +23,7 @@ public class EquipmentOrderRestController {
     public ResponseEntity<EquipmentOrderDTO> getOneEquipmentOrder(@PathVariable Long id) {
         try {
             return new ResponseEntity<>(
-                    equipmentOrderMapper.toEquipmentOrderDto(equipmentOrderService.getEquipmentOrderById(id)
+                    equipmentOrderMapper.toEquipmentOrderDto(equipmentOrderService.findById(id)
                     ), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -33,7 +33,7 @@ public class EquipmentOrderRestController {
     @GetMapping
     public ResponseEntity<List<EquipmentOrderDTO>> getAllEquipmentOrders() {
         try {
-            List<EquipmentOrder> listOfEquipments = equipmentOrderService.getAllEquipmentOrders();
+            List<EquipmentOrder> listOfEquipments = equipmentOrderService.findAll();
             List<EquipmentOrderDTO> listOfEquipmentsDTO = new ArrayList<>();
             for (EquipmentOrder equipment : listOfEquipments) {
                 listOfEquipmentsDTO.add(equipmentOrderMapper.toEquipmentOrderDto(equipment));
@@ -47,7 +47,7 @@ public class EquipmentOrderRestController {
     @PostMapping
     public ResponseEntity<EquipmentOrderDTO> addEquipmentOrder(@RequestBody EquipmentOrder equipmentOrder) {
         try {
-            equipmentOrderService.saveEquipmentOrder(equipmentOrder);
+            equipmentOrderService.save(equipmentOrder);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -57,7 +57,7 @@ public class EquipmentOrderRestController {
     @PutMapping
     public ResponseEntity<EquipmentOrderDTO> updateEquipmentOrder(@RequestBody EquipmentOrder equipmentOrder) {
         try {
-            equipmentOrderService.updateEquipmentOrder(equipmentOrder);
+            equipmentOrderService.update(equipmentOrder);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -67,11 +67,10 @@ public class EquipmentOrderRestController {
     @DeleteMapping("{id}")
     public ResponseEntity<EquipmentOrderDTO> deleteEquipmentOrder(@PathVariable Long id) {
         try {
-            equipmentOrderService.deleteEquipmentOrderByID(id);
+            equipmentOrderService.removeById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
 }
