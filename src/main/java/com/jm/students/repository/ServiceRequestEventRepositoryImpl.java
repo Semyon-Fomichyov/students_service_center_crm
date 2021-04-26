@@ -18,17 +18,17 @@ public class ServiceRequestEventRepositoryImpl implements ServiceRequestEventRep
     }
 
     @Override
-    public List<ServiceRequestEvent> getAllEvents() {
+    public List<ServiceRequestEvent> findAll() {
         return em.createQuery("from ServiceRequestEvent", ServiceRequestEvent.class).getResultList();
     }
 
     @Override
-    public void newEvent(ServiceRequestEvent event) {
+    public void save(ServiceRequestEvent event) {
         em.persist(event);
     }
 
     @Override
-    public ServiceRequestEvent getEventById(long id) {
+    public ServiceRequestEvent findById(long id) {
         return em.find(ServiceRequestEvent.class, id);
     }
 }

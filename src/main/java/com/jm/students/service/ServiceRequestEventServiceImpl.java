@@ -18,17 +18,17 @@ public class ServiceRequestEventServiceImpl implements  ServiceRequestEventServi
     }
 
     @Override
-    public List<ServiceRequestEvent> getAllEvents() {
-        return serviceRequestEventRepository.getAllEvents();
+    public List<ServiceRequestEvent> findAll() {
+        return serviceRequestEventRepository.findAll();
     }
 
     @Override
-    public void newEvent(ServiceRequestEvent event) {
-        serviceRequestEventRepository.newEvent(event);
+    public void save(ServiceRequestEvent event) {
+        serviceRequestEventRepository.save(event);
     }
 
     @Override
-    public ServiceRequestEvent getEventById(long id) {
-        return serviceRequestEventRepository.getEventById(id);
+    public ServiceRequestEvent findById(long id) {
+        return serviceRequestEventRepository.findById(id);
     }
 }
