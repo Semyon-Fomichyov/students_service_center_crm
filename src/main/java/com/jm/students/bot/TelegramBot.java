@@ -1,12 +1,15 @@
 package com.jm.students.bot;
 
+import com.jm.students.model.Location;
 import com.jm.students.model.ServiceRequest;
 import com.jm.students.model.User;
 import com.jm.students.service.UserService;
+import com.jm.students.service.util.GeocodingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -24,6 +27,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private final UserService userService;
 
+    private final GeocodingService geocodingService;
 
     @Value("${bot.name}")
     private String botUsername;
@@ -32,8 +36,9 @@ public class TelegramBot extends TelegramLongPollingBot {
     private String botToken;
 
     @Autowired
-    public TelegramBot(UserService userService) {
+    public TelegramBot(UserService userService, GeocodingService geocodingService) {
         this.userService = userService;
+        this.geocodingService = geocodingService;
     }
 
 
@@ -47,8 +52,6 @@ public class TelegramBot extends TelegramLongPollingBot {
     public String getBotToken() {
         return botToken;
     }
-
-
 
 
     @Override
@@ -85,6 +88,18 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
+    private void sendLocation(Location location, String chatId) {
+        SendLocation sendLocation = new SendLocation();
+        sendLocation.setChatId(chatId);
+        sendLocation.setLatitude(location.getLatitude());
+        sendLocation.setLongitude(location.getLongitude());
+        try {
+            execute(sendLocation);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendMessageFromRequest(Message message) {
         SendMessage sendMessage = new SendMessage();
         User userFromDb = userService.getUserByTelegramId(String.valueOf(message.getChatId()));
@@ -100,6 +115,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
+
     public void setButtons(SendMessage sendMessage) {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(keyboardMarkup);
@@ -118,6 +134,8 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     public void sendMessageRequest(User user, ServiceRequest request) {
+        Location location = geocodingService.getLocation(request.getCustomer().getOrganization().getAddress())
+                .orElse(null);
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(user.getTelegramChatId());
         sendMessage.setText(request.toString());
@@ -125,6 +143,9 @@ public class TelegramBot extends TelegramLongPollingBot {
             execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
+        }
+        if (location != null) {
+            sendLocation(location, user.getTelegramChatId());
         }
     }
 }
