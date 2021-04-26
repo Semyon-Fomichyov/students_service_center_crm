@@ -26,6 +26,16 @@ public class ServiceRequestServiceImpl extends AbstractEntityServiceImpl<Service
         this.requestEventService = requestEventService;
     }
 
+    @Override
+    public void save(ServiceRequest entity) {
+        super.save(entity);
+        ServiceRequestEvent event = new ServiceRequestEvent();
+        event.setServiceRequest(entity);
+        event.setStatusRequestType(StatusRequestType.NEW);
+        event.setTimestamp(LocalDateTime.now());
+        requestEventService.save(event);
+    }
+
     /**
      * Метод находит заявку по {@param id},
      * устанавливает этой заявке новый статус {@param statusRequestType}
