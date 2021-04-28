@@ -1,14 +1,10 @@
 package com.jm.students.service.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jm.students.model.Location;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestComponent;
-import org.springframework.context.annotation.ComponentScan;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GeocodingServiceTest {
 
@@ -25,5 +21,17 @@ class GeocodingServiceTest {
         double distance = Math.abs(trueGeocode.getLatitude() - geocode.getLatitude())
                 + Math.abs(trueGeocode.getLongitude() - geocode.getLongitude());
         assertTrue(distance < EPSILON);
+    }
+
+    @Test
+    void getDistance() {
+        geocodingService = new GeocodingServiceHereImpl();
+        Location origin = new Location(55.833966, 37.417257);
+        Location destination = new Location(55.833966, 37.417257);
+        Integer a = 0;
+        Integer b = geocodingService.getDistance(origin, destination);
+        assertEquals(a, b);
+
+
     }
 }

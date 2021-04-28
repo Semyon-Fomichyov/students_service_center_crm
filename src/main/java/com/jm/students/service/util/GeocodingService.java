@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface GeocodingService {
     Optional<Location> getLocation(String address);
+    Integer getDistance(Location origin, Location destination);
 }
