@@ -6,9 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class TestSecurityController {
 
+//    @GetMapping("/director_page")
+//    public String getDirectorPage() {
+//        return "testSecurityTemplates/test_security_director";
+//    }
+
     @GetMapping("/director_page")
     public String getDirectorPage() {
-        return "testSecurityTemplates/test_security_director";
+        return "allRequests";
     }
 
     @GetMapping("/manager_page")

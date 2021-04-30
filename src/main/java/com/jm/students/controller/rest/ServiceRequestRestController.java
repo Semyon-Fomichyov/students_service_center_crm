@@ -16,11 +16,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("serviceRequests")
+@RequestMapping("/serviceRequests")
 public class ServiceRequestRestController {
 
     private final ServiceRequestService serviceRequestService;
     private final ServiceRequestMapper serviceRequestMapper;
+
+    @PostMapping("/confirm_manager")
+    public ResponseEntity<ServiceRequestDTO> confirmServiceRequestByManager(
+            @RequestBody ServiceRequestDTO serviceRequestDTO) {
+        return new ResponseEntity<>(new ServiceRequestDTO(), HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ServiceRequestDTO> getOneServiceRequest(@PathVariable Long id) {
@@ -35,6 +41,7 @@ public class ServiceRequestRestController {
 
     @GetMapping
     public ResponseEntity<List<ServiceRequestDTO>> getAllServiceRequests() {
+        System.out.println("tut");
         try {
             List<ServiceRequest> listOfRequests = serviceRequestService.findAll();
             List<ServiceRequestDTO> listOfRequestsDTO = new ArrayList<>();

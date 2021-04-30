@@ -2,25 +2,23 @@ function allRequests() {
     fetch("http://localhost:8080/serviceRequests")
         .then((res) => res.json())
         .then((data) => {
-            let output = "";
+            let serviseRequestsTable = $('#allRequests').empty();
             data.forEach(function (request) {
-
-                output += `
-                <tr>
-                <td id="id${request.id}">${request.id}</td>
-                <td id="vehicleNumber${request.id}">${request.vehicleNumber}</td> 
-                <td id="dateOfCreate${request.id}">${request.dateOfCreate}</td>
-                <td id="requestType${request.id}">${request.requestType}</td>
-                <td id="problem${request.id}">${request.problem}</td>
-                <td id="customer${request.id}">${request.customer}</td>
-                <td id="orders${request.id}">${request.orders.map(order => order.order)}
-              </tr>
-
-          `;
+                $('<tr>' +
+                '<td id="id' + request.id + '">' + request.id + '</td>' +
+                '<td id="vehicleNumber' + request.id + '">' + request.vehicleNumber + '</td>' +
+                '<td id="dateOfCreate' + request.id + '">' + request.dateOfCreate + '</td>' +
+                '<td id="requestType' + request.id + '">' + request.requestType + '</td>' +
+                '<td id="problem' + request.id + '">' + request.problem + '</td>' +
+                '<td id="customer' + request.id + '">' + request.customer + '</td>' +
+                '<td id="orders' + request.id + '">' + request.orders.map(order => order.order) + '</td>' +
+                '<td><button type="button" class="btn btn-secondary" id="button' + request.id + '">Отправить менеджеру</button></td>' +
+                '</tr>').appendTo(serviseRequestsTable);
+                $('#button'+request.id).on('click', function () {
+                    sendRequestPost('POST', "http://localhost:8080/serviceRequests/confirm_manager", request);
+                });
             });
-            document.getElementById("allRequests").innerHTML = output;
         })
 }
-
 
 allRequests()

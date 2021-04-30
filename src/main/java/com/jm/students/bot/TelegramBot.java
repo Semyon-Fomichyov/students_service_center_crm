@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Component
+//@Component
 public class TelegramBot extends TelegramLongPollingBot {
 
     private final UserService userService;
