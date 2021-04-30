@@ -9,4 +9,7 @@ public interface UserService extends AbstractEntityService<User> {
     User findUserByEmail(String email);
     User getUserByTelegramId(String telegramChatId);
     List<User> findByIsDisabled(boolean isDisabled);
+    User findUserByResetPasswordToken(String resetPasswordToken);
+    void updateResetPasswordToken(String resetPasswordToken, String email);
+    void updatePassword(User user, String newPassword);
 }

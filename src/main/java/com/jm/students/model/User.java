@@ -30,6 +30,7 @@ public class User implements UserDetails {
     private String email;
     private String telegramChatId;
     private boolean isDisabled;
+    private String resetPasswordToken;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE
             , CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.LAZY)

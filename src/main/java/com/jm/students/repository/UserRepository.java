@@ -8,4 +8,5 @@ public interface UserRepository extends AbstractEntityRepository<User> {
     User findUserByEmail(String email);
     User getUserByTelegramId(String telegramChatId);
     List<User> findByIsDisabled(boolean isDisabled);
+    User findUserByResetPasswordToken(String resetPasswordToken);
 }
