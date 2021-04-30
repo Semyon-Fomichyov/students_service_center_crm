@@ -23,6 +23,8 @@ public abstract class AbstractOrganization {
 
     private String name;
 
+    private String address;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "organization")
     private List<User> employees = new ArrayList<>();
 
