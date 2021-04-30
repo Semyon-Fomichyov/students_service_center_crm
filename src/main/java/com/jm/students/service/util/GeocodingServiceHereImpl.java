@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Component
@@ -44,6 +45,31 @@ public class GeocodingServiceHereImpl implements GeocodingService {
                 double lng = position.get("lng").asDouble();
                 return Optional.of(new Location(lat, lng));
             } catch (JsonProcessingException ignored) {
+            }
+        }
+        return result;
+
+    }
+
+    @Override
+    public Integer getDistance(Location origin, Location destination) {
+        Integer result = null;
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://router.hereapi.com/v8/routes?transportMode=car&origin=" +
+                origin.getLatitude() + "," +
+                origin.getLongitude() + "&destination=" +
+                destination.getLatitude() + "," +
+                destination.getLongitude() + "&return=summary" +
+                "&apiKey=" +
+                hereMapsApiKey;
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode distance = objectMapper.readTree(response.getBody()).get("routes").get(0).get("sections").get(0).get("summary");
+                return distance.get("length").asInt();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return result;
