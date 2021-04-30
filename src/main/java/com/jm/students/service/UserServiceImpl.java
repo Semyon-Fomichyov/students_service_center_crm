@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.List;
 
 @Service
 @Transactional
@@ -77,5 +76,24 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
     @Override
     public List<User> findByIsDisabled(boolean isDisabled) {
         return userRepository.findByIsDisabled(isDisabled);
+    }
+
+    @Override
+    public User findUserByResetPasswordToken(String resetPasswordToken) {
+        return userRepository.findUserByResetPasswordToken(resetPasswordToken);
+    }
+
+    @Override
+    public void updateResetPasswordToken(String resetPasswordToken, String email) {
+        User user = userRepository.findUserByEmail(email);
+        user.setResetPasswordToken(resetPasswordToken);
+        userRepository.update(user);
+    }
+
+    @Override
+    public void updatePassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setResetPasswordToken(null);
+        userRepository.update(user);
     }
 }

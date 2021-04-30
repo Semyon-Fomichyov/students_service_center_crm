@@ -39,4 +39,11 @@ public class UserRepositoryImpl extends AbstractEntityRepositoryImpl<User> imple
         return userTypedQuery.getResultList();
     }
 
+    @Override
+    public User findUserByResetPasswordToken(String resetPasswordToken) {
+        return (User) entityManager.createQuery("select u from User u where u.resetPasswordToken=:resetPasswordToken")
+                .setParameter("resetPasswordToken", resetPasswordToken)
+                .getSingleResult();
+    }
+
 }

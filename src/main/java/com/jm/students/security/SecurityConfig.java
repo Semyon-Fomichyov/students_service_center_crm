@@ -11,10 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
     private final UserDetailsService userDetailsService;
     private final SuccessUserHandler successUserHandler;
-    
+
     public SecurityConfig(
             @Qualifier("UserDetailsServiceImpl") UserDetailsService userDetailsService
             , SuccessUserHandler successUserHandler) {
@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.userDetailsService = userDetailsService;
         this.successUserHandler = successUserHandler;
     }
-    
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/forgot_password").anonymous()
                 .antMatchers("/director_page").access("hasRole('ROLE_DIRECTOR')")
                 .antMatchers("/manager_page").access("hasRole('ROLE_MANAGER')")
                 .antMatchers("/engineer_page").access("hasRole('ROLE_ENGINEER')")
