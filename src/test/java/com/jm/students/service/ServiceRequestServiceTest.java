@@ -22,6 +22,10 @@ class ServiceRequestServiceTest {
     @Autowired
     ServiceRequestService service;
 
+    @MockBean
+    ServiceRequestEventService eventService;
+
+
     @Test
     void getAllServiceRequests() {
         List<ServiceRequest> expected = new ArrayList<>();
